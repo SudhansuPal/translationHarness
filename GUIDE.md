@@ -259,7 +259,7 @@ cat results/results.jsonl | python3 -m json.tool --json-lines
 | `NUM_TESTS` | 5 | How many entries of `tests.json` are used |
 | `MAX_RETRIES` | 3 | Translation attempts per unit |
 | `DIRECTIONS` | `[("python","java")]` | Default direction when `--direction` isn't given |
-| `MODEL` | `claude-opus-5` | Claude model used for translation |
+| `MODEL` | `claude-opus-5-5` | Claude model used for translation |
 | `SEED` | 0 | Makes mutation choices reproducible |
 
 Timeouts are in `harness/execute.py`: 60s to compile, 10s per test run.
@@ -278,32 +278,3 @@ Timeouts are in `harness/execute.py`: 60s to compile, 10s per test run.
 | "could not download JavaParser" | The first Java mutation needs internet once (Maven Central). After that the jar is cached in `.cache/tools/`. |
 | "operator ... failed on java source" | Usually `javac`/`java` is missing from PATH. Check `javac -version`. |
 | Translation looks huge (type helpers, etc.) | Normal. Claude is making Java mimic Python's dynamic comparisons exactly, because the prompt demands identical behavior. |
-
----
-
-## 9. About your API key and Claude Code
-
-Two separate things read the same `ANTHROPIC_API_KEY` from your environment:
-
-1. **The harness.** It needs the key to call Claude for translations.
-2. **Claude Code itself.** At startup it noticed the key and asked whether to
-   use it. "No (recommended)" means "keep using my Claude subscription".
-   "Yes" means "bill my Claude Code chats to this API key". Separately,
-   Anthropic doesn't train on API traffic by default, so there's no data
-   opt-out to worry about for the key.
-
-**You answered Yes**, so Claude Code sessions are currently billed to the API
-key. Choosing No would **not** break the harness. The harness reads the
-environment variable directly, whatever you told Claude Code. To switch:
-
-- **Most reliable:** keep the key out of the shell Claude Code starts in.
-  Remove the `export` line from `~/.zshrc` and put it in a file like
-  `~/translationHarness/.env.sh`. Run `source .env.sh` only in the terminal
-  where you run the harness. Also add `.env.sh` to `.gitignore`.
-- Or reset the answer: in `~/.claude.json`, move the entry under
-  `customApiKeyResponses.approved` to `rejected`. Restart Claude Code; it
-  should then use your subscription login (run `/login` if it asks).
-- Check which one is active with `/status` inside Claude Code.
-
-Also: never paste the key into chat or commit it. `~/.zshrc` is fine because
-it isn't in a repo you push.

@@ -39,7 +39,7 @@ NUM_VARIANTS = 2  # mutated variants per (program, direction), plus the original
 NUM_TESTS = 5  # test inputs used per program (first N of corpus/<prog>/tests.json)
 MAX_RETRIES = 3  # translation attempts in total per (program, variant, direction)
 DIRECTIONS: list[tuple[str, str]] = [("python", "java")]  # (source, target) pairs
-MODEL = "claude-opus-5"
+MODEL = "claude-opus-5-5"
 SEED = 0  # makes mutation choices reproducible
 
 ROOT = Path(__file__).resolve().parent.parent

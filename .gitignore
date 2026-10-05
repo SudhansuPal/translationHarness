@@ -3,3 +3,4 @@ __pycache__/
 .cache/
 results/translations/
 results/results.jsonl
+.DS_Store
