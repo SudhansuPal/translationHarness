@@ -1,0 +1,23 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Harness: dry run (no API calls)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "harness.runner",
+      "args": ["--dry-run", "--direction", "python:java", "--direction", "java:python"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Harness: real run (python -> java)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "harness.runner",
+      "args": ["--direction", "python:java"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    }
+  ]
+}

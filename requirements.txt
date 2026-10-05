@@ -1,0 +1,4 @@
+anthropic>=1.8
+# Optional, if you implement the Python mutation operators with libcst
+# (preserves comments/formatting) instead of the stdlib `ast` module:
+# libcst
